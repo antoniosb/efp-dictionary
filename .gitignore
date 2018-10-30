@@ -23,3 +23,5 @@ erl_crash.dump
 dictionary-*.tar
 
 .elixir_ls/*
+
+.vscode/*
