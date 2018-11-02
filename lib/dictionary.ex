@@ -3,7 +3,8 @@ defmodule Dictionary do
   This module reads the wordlist file and gives us a random word.
   """
   def word_list do
-    "assets/words.txt"
+    "../assets/words.txt"
+    |> Path.expand(__DIR__)
     |> File.read!()
     |> String.split(~r/\n/)
   end
