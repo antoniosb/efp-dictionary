@@ -136,4 +136,26 @@ defmodule Exercises do
     def even_length?([_first, _second | _tail]), do: true
     def even_length?([_ | _]), do: false
   end
+
+  @doc """
+  Write a list comprehension that finds all the Pythagorean triples for right
+  triangles with sides shorter than 100. A Pythagorean triple is three integers
+  a, b, and c, where a 2 + b 2 = c 2 .
+
+  How many times will the innermost part of the comprehension execute?
+
+  ## Examples:
+    iex> Exercises.pythagorean_triples() |> Enum.member?([3,4,5])
+    true
+  """
+  def pythagorean_triples do
+    for a <- 1..100, b <- 1..100, c <- 1..100, a * a + b * b == c * c, do: [a, b, c]
+  end
+
+  @doc """
+    If you said one million, then can you think of a way of reducing number down below 200,000?
+  """
+  def pythagorean_triples2 do
+    for a <- 1..100, b <- a..100, c <- b..100, a * a + b * b == c * c, do: [a, b, c]
+  end
 end
