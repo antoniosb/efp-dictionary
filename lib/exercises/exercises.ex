@@ -182,6 +182,10 @@ defmodule Exercises do
         {new_cache, new_cache}
       end)
     end
+
+    def stop(cache) do
+      Agent.stop(cache)
+    end
   end
 
   defmodule Fibonacci do
@@ -189,7 +193,7 @@ defmodule Exercises do
      Calculates Fibonacci numbers using the FibCache cache.
     """
 
-    def fib(cache, n) do
+    defp cached_fib(cache, n) do
       hit_cache = FibCache.get(cache)[n]
 
       cond do
@@ -197,16 +201,17 @@ defmodule Exercises do
           hit_cache
 
         hit_cache == nil ->
-          FibCache.update(cache, n, fib(cache, n - 1) + fib(cache, n - 2))
+          FibCache.update(cache, n, cached_fib(cache, n - 1) + cached_fib(cache, n - 2))
           FibCache.get(cache)[n]
       end
     end
 
-    def fib2(n) do
+    def fib(n) do
       {:ok, cache} = FibCache.start()
 
-      cache
-      |> fib(n)
+      result = cache |> cached_fib(n)
+      FibCache.stop(cache)
+      result
     end
   end
 end
