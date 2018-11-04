@@ -158,4 +158,55 @@ defmodule Exercises do
   def pythagorean_triples2 do
     for a <- 1..100, b <- a..100, c <- b..100, a * a + b * b == c * c, do: [a, b, c]
   end
+
+  @moduledoc """
+    Write a module that implements the cache for Fibonacci.
+    It should use an agent, and that agent’s state should be the map.
+  """
+  defmodule FibCache do
+    def start() do
+      Agent.start_link(fn -> %{0 => 0, 1 => 1} end)
+    end
+
+    def get(cache) do
+      Agent.get(cache, & &1)
+    end
+
+    def update(cache, k, v) do
+      Agent.update(cache, fn cache -> Map.put(cache, k, v) end)
+    end
+
+    def get_and_update(cache, k, v) do
+      Agent.get_and_update(cache, fn cache ->
+        new_cache = Map.put(cache, k, v)
+        {new_cache, new_cache}
+      end)
+    end
+  end
+
+  defmodule Fibonacci do
+    @moduledoc """
+     Calculates Fibonacci numbers using the FibCache cache.
+    """
+
+    def fib(cache, n) do
+      hit_cache = FibCache.get(cache)[n]
+
+      cond do
+        hit_cache != nil ->
+          hit_cache
+
+        hit_cache == nil ->
+          FibCache.update(cache, n, fib(cache, n - 1) + fib(cache, n - 2))
+          FibCache.get(cache)[n]
+      end
+    end
+
+    def fib2(n) do
+      {:ok, cache} = FibCache.start()
+
+      cache
+      |> fib(n)
+    end
+  end
 end
