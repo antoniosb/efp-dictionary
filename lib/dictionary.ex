@@ -3,6 +3,6 @@ defmodule Dictionary do
    API for the Dictionary.
   """
 
-  defdelegate start(), to: Dictionary.WordList
-  defdelegate random_word(word_list), to: Dictionary.WordList
+  defdelegate start(), to: Dictionary.WordList, as: :start_link
+  defdelegate random_word(agent_id), to: Dictionary.WordList
 end
