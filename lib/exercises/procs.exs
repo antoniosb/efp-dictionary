@@ -7,6 +7,9 @@ defmodule Procs do
       {:reset} ->
         greeter(0)
 
+      {:boom, reason} ->
+        exit(reason)
+
       msg ->
         IO.puts("#{count}: Hello #{inspect(msg)}")
         greeter(count)
