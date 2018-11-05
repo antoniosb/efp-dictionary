@@ -159,11 +159,13 @@ defmodule Exercises do
     for a <- 1..100, b <- a..100, c <- b..100, a * a + b * b == c * c, do: [a, b, c]
   end
 
-  @moduledoc """
-    Write a module that implements the cache for Fibonacci.
-    It should use an agent, and that agent’s state should be the map.
-  """
   defmodule FibCache do
+    @moduledoc """
+      Write a module that implements the cache for Fibonacci.
+      It should use an agent, and that agent’s state should be the map.
+
+      [EDIT] - This is currently living at "fib_cache" project, as a standalone app
+    """
     def start() do
       Agent.start_link(fn -> %{0 => 0, 1 => 1} end)
     end
@@ -191,6 +193,8 @@ defmodule Exercises do
   defmodule Fibonacci do
     @moduledoc """
      Calculates Fibonacci numbers using the FibCache cache.
+
+     [EDIT] - This is currently living on the "fib_calc" project.
     """
 
     defp cached_fib(cache, n) do
